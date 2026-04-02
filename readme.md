@@ -1,25 +1,20 @@
-## Jira Ticket
-
-[CRM-XXXX](https://usatoday.atlassian.net/browse/CRM-XXXX)
-
 ## Summary
 
-HLS-Sentinel es un orquestador de video de "lazo cerrado" diseñado para maximizar el QoE (Quality of Experience) y proteger el revenue publicitario. El sistema captura telemetría de alta frecuencia desde el cliente (HLS.js) y utiliza un agente de IA (LangGraph) para diagnosticar y mitigar fallos de red o de anuncios en tiempo real.
-
-## Architecture
-
-- **Frontend:** React + HLS.js (Custom Wrapper para telemetría).
-- **Backend:** NestJS + WebSockets (Ingesta de eventos).
-- **AI Orchestration:** LangGraph + Gemini (Máquina de estados para diagnóstico).
-- **Delivery:** HLS (Adaptive Bitrate Streaming).
+HLS-Sentinel is a "closed-loop" video orchestrator designed to maximize QoE (Quality of Experience) and protect ad revenue. The system captures high-frequency telemetry from the client (HLS.js) and utilizes an AI agent (LangGraph) to diagnose and mitigate network or advertisement failures in real time.
 
 ## Changes
 
-- Implementación de `TelemetryGateway` en NestJS para ingesta masiva.
-- Integración de HLS.js con hooks de React para monitoreo de buffer.
-- Lógica de diagnóstico en LangGraph para diferenciar fallos de CDN vs Ad-server.
+- **TelemetryGateway Implementation:** Developed a high-throughput gateway in NestJS for massive event ingestion.
+- **React & HLS.js Integration:** Implemented custom React hooks to monitor buffer health and player states.
+- **LangGraph Diagnostic Logic:** Integrated a state machine using LangGraph and Gemini to differentiate between CDN issues and Ad-server failures.
+- **Dynamic Delivery:** Optimized HLS Adaptive Bitrate Streaming (ABR) based on real-time AI feedback.
 
 ## Testing
 
-- Simulación de `BUFFER_STALLED` para verificar la respuesta del agente.
-- Pruebas de inyección de configuración dinámica en el player.
+- **Stall Recovery:** Simulated `BUFFER_STALLED` events to verify the AI agent's mitigation response.
+- **Dynamic Configuration:** Conducted injection tests for real-time player configuration updates.
+- **Event Integrity:** Verified high-frequency telemetry ingestion via WebSockets.
+
+## Notes
+
+N/A
