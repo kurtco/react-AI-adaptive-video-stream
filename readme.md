@@ -1,73 +1,25 @@
-# React + TypeScript + Vite
+## Jira Ticket
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[CRM-XXXX](https://usatoday.atlassian.net/browse/CRM-XXXX)
 
-Currently, two official plugins are available:
+## Summary
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+HLS-Sentinel es un orquestador de video de "lazo cerrado" diseñado para maximizar el QoE (Quality of Experience) y proteger el revenue publicitario. El sistema captura telemetría de alta frecuencia desde el cliente (HLS.js) y utiliza un agente de IA (LangGraph) para diagnosticar y mitigar fallos de red o de anuncios en tiempo real.
 
-## React Compiler
+## Architecture
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Frontend:** React + HLS.js (Custom Wrapper para telemetría).
+- **Backend:** NestJS + WebSockets (Ingesta de eventos).
+- **AI Orchestration:** LangGraph + Gemini (Máquina de estados para diagnóstico).
+- **Delivery:** HLS (Adaptive Bitrate Streaming).
 
-## Expanding the ESLint configuration
+## Changes
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Implementación de `TelemetryGateway` en NestJS para ingesta masiva.
+- Integración de HLS.js con hooks de React para monitoreo de buffer.
+- Lógica de diagnóstico en LangGraph para diferenciar fallos de CDN vs Ad-server.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Testing
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- Simulación de `BUFFER_STALLED` para verificar la respuesta del agente.
+- Pruebas de inyección de configuración dinámica en el player.
