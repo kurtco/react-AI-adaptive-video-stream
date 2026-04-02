@@ -1,15 +1,73 @@
-## Jira Ticket
+# React + TypeScript + Vite
 
-[CRM-XXXX](https://buildops.atlassian.net/browse/CRM-XXXX)
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Summary
+Currently, two official plugins are available:
 
-The **AIdaptive Stream Frontend** is a high-performance React application serving as the sensor layer for an AI-driven HLS orchestration system. It integrates `hls.js` with a custom WebSocket provider to feed real-time Quality of Service (QoS) metrics into a NestJS/LangGraph backend, enabling closed-loop Adaptive Bitrate (ABR) adjustments via Gemini 1.5 Flash.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-## Changes
+## React Compiler
 
-- **HLS Telemetry Provider**: Custom React hook that extracts `bufferLength`, `bitrate`, `bandwidth`, and `latency` directly from the `hls.js` engine.
-- **WebSocket Integration**: Low-latency communication layer using `socket.io-client` for real-time telemetry emission and command reception.
-- **Deterministic Command Actuator**: Logic to intercept `TUNE_ABR` and `SKIP_AD_SEGMENT` commands from the AI agent and apply them to the video instance.
-- **Strict TypeScript Implementation**: Full type safety for telemetry DTOs and Socket.io event schemas, mirroring the backend architecture.
-- **Responsive Video UI**: Optimized player layout designed for cross-browser compatibility using Media Source Extensions (MSE).
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+
+## Expanding the ESLint configuration
+
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
+
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
+
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
+
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
