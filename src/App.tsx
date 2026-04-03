@@ -6,9 +6,10 @@ import './App.css';
  * Orchestrates the primary AIdaptive Stream view.
  * Connects the UI to the backend telemetry gateway.
  */
+export const TEST_STREAM = "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8";
+
 function App() {
   // Reliable HLS test stream (Big Buck Bunny via Akamai)
-  const TEST_STREAM = "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8";
 
   return (
     <main className="app-container">
