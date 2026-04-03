@@ -1,6 +1,12 @@
 ## Summary
 
-HLS-Sentinel is a "closed-loop" video orchestrator designed to maximize QoE (Quality of Experience) and protect ad revenue. The system captures high-frequency telemetry from the client (HLS.js) and utilizes an AI agent (LangGraph) to diagnose and mitigate network or advertisement failures in real time.
+- Sensor Layer (Frontend): A React component using useRef to manage the hls.js instance without triggering unnecessary re-renders, emitting metrics like bufferLength, bandwidth, and latency.
+
+- Ingestion Layer (Backend): A NestJS Gateway that receives metrics and applies a gate of 15–30 seconds to stay within the 15 RPM limit of the Gemini free tier.
+
+- Orchestration Layer (LangGraph): A stateful graph that maintains a sliding window (History) of the last 5 metrics to identify negative health trends.
+
+- Actuator Logic: A deterministic node that translates AI reasoning into actionable player commands like TUNE_ABR to prevent a Stall.
 
 ## Changes
 
