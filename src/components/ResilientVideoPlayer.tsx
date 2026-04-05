@@ -99,7 +99,7 @@ export const ResilientVideoPlayer = ({ primaryUrl, fallbackUrl }: Props) => {
       socket.off('player-command');
     };
   }, [primaryUrl, fallbackUrl]);
-
+  // If either of these two URLs changes, run this entire cleanup process immediately
   useHlsTelemetry(hlsRef, socket);
 
   
